@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "json-server": "^0.17.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "json-server-auth": "^2.1.0"
+  }
+}
