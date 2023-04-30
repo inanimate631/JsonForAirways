@@ -5,43 +5,63 @@ const cors = require('cors');
 const rules = auth.rewriter({
   users: 600,
   messages: 660,
-  tikets: 660,
+  cities: 640,
 })
 
 const db = {
   users: [],
   messages: ['success'],
-  tikets: [
-    {
-      from: 'Dublin',
-      to: 'Warsaw Modlin',
-      date: '2023-05-07T21:00:00.000Z',
-      flightTime: '2h 50m',
-      price: {
-        EUR: 524.70,
-        USA: 578.9,
-        RUB: 47200.89,
-        PLN: 2408.35
-      },
-      FlightNum: 1925
-    },
-    {
-      from: 'Dublin',
-      to: 'Warsaw Modlin',
-      date: '2023-05-07T21:00:00.000Z',
-      flightTime: '2h 50m',
-      price: {
-        EUR: 524.70,
-        USA: 578.9,
-        RUB: 47200.89,
-        PLN: 2408.35
-      },
-      FlightNum: 1925
-    }
-  ],
+  cities: ['Dublin', 'Warsaw Modlin', 'Paris', 'Luxemburg', 'Berlin'],
+  tikets: [],
 };
 
-const PORT = '3000'
+function getRandomArbitrary(min, max) {
+  return (Math.random() * (max - min) + min).toFixed(2);
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+const date = new Date();
+date.setHours(0, 0, 0, 0);
+const milSecond = date.getTime();
+
+db.cities.forEach((value) => {
+  for (let i = 0; i < db.cities.length; i++) {
+    if (db.cities[i] === value) {
+      continue;
+    }
+    for (let day = 0; day < 10; day++) {
+      if (getRandomInt(4) === 0) {
+        continue;
+      }
+      const departure = milSecond + (getRandomInt(24) * 3600000) + (day * 86400000);
+      const cost = getRandomArbitrary(60, 600);
+
+      const tiket = {
+        from: value,
+        to: db.cities[i],
+        departure: new Date(departure).toISOString(),
+        arrival: new Date(departure + (getRandomInt(7) * 3600000) + ((getRandomInt(5) + 1) * 600000)),
+        price: {
+          EUR: cost,
+          USA: (cost * 1.083).toFixed(2),
+          RUB: (cost * 91.33).toFixed(2),
+          PLN: (cost * 4.56).toFixed(2),
+        },
+        FlightNum: Math.round(getRandomArbitrary(1000, 2000)),
+        places: {
+          general: Math.round(getRandomArbitrary(50, 188)),
+          clear: Math.round(getRandomArbitrary(5, 150))
+        }
+      }
+      db.tikets.push(tiket);
+    }
+  }
+});
+
+const PORT = '3000';
 
 const app = jsonServer.create();
 const router = jsonServer.router(db);
@@ -50,25 +70,10 @@ app.db = router.db
 app.use(cors({
   origin: 'http://localhost:4200'
 }));
-app.use(auth)
-app.use(rules)
-app.use(auth)
-app.use(router)
-
-
-app.patch('/tikets', (req, res) => {
-  const { startDate, endDate } = req.query;
-
-  if (!endDate) {
-    return //
-  }
-
-  if (!db.garage.find(car => car.id === +id)) {
-    return res.status(404).send('Car with such id was not found in the garage.')
-  }
-
-
-});
+app.use(auth);
+app.use(rules);
+app.use(auth);
+app.use(router);
 app.listen(PORT, () => {
   console.log('Server is running on port', PORT);
 });
