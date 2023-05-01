@@ -5,7 +5,6 @@ const cors = require('cors');
 const rules = auth.rewriter({
   users: 600,
   messages: 660,
-  cities: 640,
 });
 
 const db = {
