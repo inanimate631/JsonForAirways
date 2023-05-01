@@ -38,6 +38,7 @@ db.cities.forEach((value) => {
       }
       const departure = milSecond + getRandomInt(24) * 3600000 + day * 86400000;
       const cost = getRandomArbitrary(60, 600);
+      const total = Math.round(getRandomArbitrary(50, 188))
 
       const tiket = {
         from: value,
@@ -54,8 +55,8 @@ db.cities.forEach((value) => {
         },
         flightNum: Math.round(getRandomArbitrary(1000, 2000)),
         seats: {
-          total: Math.round(getRandomArbitrary(50, 188)),
-          available: Math.round(getRandomArbitrary(5, 150)),
+          total: total,
+          available: Math.round(getRandomArbitrary(5, total)),
         },
       };
       db.tikets.push(tiket);
