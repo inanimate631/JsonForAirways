@@ -31,7 +31,7 @@ db.cities.forEach((value) => {
     if (db.cities[i] === value) {
       continue;
     }
-    for (let day = 0; day < 10; day++) {
+    for (let day = 0; day < 30; day++) {
       if (getRandomInt(4) === 0) {
         continue;
       }
