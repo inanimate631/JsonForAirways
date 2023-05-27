@@ -71,7 +71,7 @@ const router = jsonServer.router(db);
 app.db = router.db;
 app.use(
   cors({
-    origin: ["http://localhost:4200", "https://airways-angular.netlify.app/"],
+    origin: "https://airways-angular.netlify.app/",
   })
 );
 app.use(auth);
