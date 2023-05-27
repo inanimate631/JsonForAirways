@@ -69,11 +69,7 @@ const app = jsonServer.create();
 const router = jsonServer.router(db);
 
 app.db = router.db;
-app.use(
-  cors({
-    origin: "https://airways-angular.netlify.app/",
-  })
-);
+app.use(cors());
 app.use(auth);
 app.use(rules);
 app.use(auth);
