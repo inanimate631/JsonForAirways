@@ -1,6 +1,6 @@
-const jsonServer = require('json-server');
-const auth = require('json-server-auth');
-const cors = require('cors');
+const jsonServer = require("json-server");
+const auth = require("json-server-auth");
+const cors = require("cors");
 
 const rules = auth.rewriter({
   users: 600,
@@ -9,8 +9,8 @@ const rules = auth.rewriter({
 
 const db = {
   users: [],
-  messages: ['success'],
-  cities: ['Dublin', 'Warsaw Modlin', 'Paris', 'Luxemburg', 'Berlin'],
+  messages: ["success"],
+  cities: ["Dublin", "Warsaw Modlin", "Paris", "Luxemburg", "Berlin"],
   tikets: [],
 };
 
@@ -37,7 +37,7 @@ db.cities.forEach((value) => {
       }
       const departure = milSecond + getRandomInt(24) * 3600000 + day * 86400000;
       const cost = getRandomArbitrary(60, 600);
-      const total = Math.round(getRandomArbitrary(50, 188))
+      const total = Math.round(getRandomArbitrary(50, 188));
 
       const tiket = {
         from: value,
@@ -63,7 +63,7 @@ db.cities.forEach((value) => {
   }
 });
 
-const PORT = '3000';
+const PORT = "3000";
 
 const app = jsonServer.create();
 const router = jsonServer.router(db);
@@ -71,7 +71,7 @@ const router = jsonServer.router(db);
 app.db = router.db;
 app.use(
   cors({
-    origin: 'http://localhost:4200',
+    origin: ["http://localhost:4200", "https://airways-angular.netlify.app/"],
   })
 );
 app.use(auth);
@@ -79,5 +79,5 @@ app.use(rules);
 app.use(auth);
 app.use(router);
 app.listen(PORT, () => {
-  console.log('Server is running on port', PORT);
+  console.log("Server is running on port", PORT);
 });
